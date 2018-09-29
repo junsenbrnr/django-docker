@@ -70,5 +70,6 @@ Migrate:
 Create the superuser:
 * `docker-compose -f dev.yml exec app bash -c "./manage.py createsuperuser"`
 
-Static files (you'll need to update `settings.py` and create the static directory of your choice:
+Static files:
+> You'll need to update `settings.py` and create the `STATIC_ROOT` of your choice. By default, the directories are named `static` and `media`. If you want to use different names, you'll also have to update the Nginx confs and rebuild the containers.
 * `docker-compose -f dev.yml exec app bash -c "./manage.py collectstatic --no-input"`
