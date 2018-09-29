@@ -53,3 +53,22 @@ DATABASES = {
     }
 }
 ```
+
+### Build containers
+With everything setup, to build and run the containers run:
+* `docker-compose -f dev.yml build`
+* `docker-compose -f dev.yml up -d`
+
+Edit your local hosts file and point the `VIRTUAL_HOST` set in `.env` to `127.0.0.1`. You should now be able to hit your `VIRTUAL_HOST` in your browser.
+
+### Django
+With everything running, now it's time to get Django officially running. 
+
+Migrate:
+* `docker-compose -f dev.yml exec app bash -c "./manage.py migrate"`
+
+Create the superuser:
+* `docker-compose -f dev.yml exec app bash -c "./manage.py createsuperuser"`
+
+Static files (you'll need to update `settings.py` and create the static directory of your choice:
+* `docker-compose -f dev.yml exec app bash -c "./manage.py collectstatic --no-input"`
