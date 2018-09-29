@@ -1,47 +1,55 @@
 # django-docker
-A complete example for deploying Django project with Nginx and MySQL on Docker.
-## QuickStart
-Install Docker Engine from the tutorial <https://docs.docker.com/engine/installation/>.</br>
-Install Docker Compose from the tutorial <https://docs.docker.com/compose/install/>.</br>
-Get the latest project clone to your computer:
-```bash
-$ git clone https://github.com/huchenw/django-docker.git
-```
-Run docker-compose commands to start containers:
-```bash
-$ docker-compose up -d
-```
-Now you can access the application at <http://localhost> or <http://192.168.99.100>(Docker Toolbox).</br>
-## Static Files
-To collect static files for nginx to access, just run:
-```bash
-$ docker-compose exec web bash
-$ python manage.py collectstatic
-```
-## Django Admin
-If you want to access django admin site, please apply the django default migrations to database:
-```bash
-$ docker-compose exec web bash
-$ python manage.py migrate
-```
-Then you need to create a superuser account:
-```bash
-$ python manage.py createsuperuser
-$ ...
-```
-## Celery Results
-Redis is used as broker for Celery <http://docs.celeryproject.org/en/latest/getting-started/brokers/redis.html>.</br>
-The official tutorial <http://docs.celeryproject.org/en/latest/django/> tells us how to use Celery with Django.</br>
-You can check the Celery results from logs:
-```bash
-$ docker-compose logs celery
-```
-## Docker Images Reference
 
-| Name   | Image                              |
-| ------ | ---------------------------------- |
-| Nginx  | <https://hub.docker.com/_/nginx/>  |
-| MySQL  | <https://hub.docker.com/_/mysql/>  |
-| Redis  | <https://hub.docker.com/_/redis/>  |
-| Python | <https://hub.docker.com/_/python/> |
+Hat tip to [django-docker](https://github.com/huchenw/django-docker) and [laradock](https://github.com/laradock/laradock)
 
+## How to get this working
+### Docker
+First, get [docker](https://www.docker.com)
+
+### Repository
+Next:
+
+* clone or download this repo
+* create a virtual environemt for your project
+* copy `env-template` to `.env` and fill in your project/docker settings
+* add or remove any dependencies in `requirements.in`
+
+> [pip-tools](https://github.com/jazzband/pip-tools) is awesome. Simply add your dependencies to a `requirements.in` file, run `pip-compile requirements.in` and pip-tools will generate the `requirements.txt` file for you.
+
+* run: `pip install -U pip pip-tools`
+* generate `requirements.txt` by running: `pip-compile requirements.in`
+* install your packages by running: `pip install -r requirements.txt`
+* install Django by running: `django-admin startproject YOUR-PROJECT-NAME-HERE .`
+
+### .env and settings.py
+> If you did not remove `[python-dotenv](https://github.com/theskumar/python-dotenv)` in `requirements.in`, which you probably shouldn't, follow the steps below. If you did remove it, update `settings.py` like you normally would and skip this section.
+
+Using Docker's `.env` file, we're going to replace environment specific settings. First, we need to add the following code right below `import os`.
+
+```python
+from dotenv import load_dotenv
+from pathlib import Path
+
+load_dotenv(verbose=True)
+env_path = Path('.') / '.env'
+load_dotenv(dotenv_path=env_path)
+```
+
+The `DEBUG` environment variable in `.env` can be used in `settings.py` like the following:
+
+`DEBUG = os.getenv("DEBUG")`
+
+Any variable that exists in `.env` can be used. For example:
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv("POSTGRES_DB"),
+        'USER': os.getenv("POSTGRES_USER"),
+        'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
+        'HOST': 'db',
+        'PORT': '5432',
+    }
+}
+```

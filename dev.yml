@@ -8,7 +8,7 @@ services:
       - .env
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-dev
       args:
         - VIRTUAL_HOST=${VIRTUAL_HOST}
         - PROJECT_NAME=${PROJECT_NAME}
@@ -19,9 +19,6 @@ services:
       - "443:4433"
     volumes:
       - .:/var/www/${PROJECT_NAME}
-      # https://certbot.eff.org/docs/using.html#webroot
-      - ./nginx/letsencrypt:/var/www/letsencrypt
-      - /etc/letsencrypt:/etc/letsencrypt
     links:
       - app
     restart: always
@@ -40,6 +37,7 @@ services:
         - PYTHON_VERSION=${PYTHON_VERSION}
     container_name: ${PROJECT_NAME}_app
     expose:
+      - "1025"
       - "8000"
     volumes:
       - .:/${PROJECT_NAME}
@@ -63,6 +61,13 @@ services:
       - ${POSTGRES_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
       - data:/var/lib/postgresql/data
     restart: always
+
+  ### MAILHOG
+  mailhog:
+      build: ./mailhog
+      ports:
+        - "1025:1025"
+        - "8025:8025"
 
 volumes:
   data:
