@@ -9,7 +9,7 @@ First, get [docker](https://www.docker.com)
 ### Repository
 Next:
 
-* clone or download this repo
+* download this repo
 * create a virtual environemt for your project
 * copy `env-template` to `.env` and fill in your project/docker settings
 * add or remove any dependencies in `requirements.in`
@@ -22,7 +22,7 @@ Next:
 * install Django by running: `django-admin startproject YOUR-PROJECT-NAME-HERE .`
 
 ### .env and settings.py
-> If you did not remove `[python-dotenv](https://github.com/theskumar/python-dotenv)` in `requirements.in`, which you probably shouldn't, follow the steps below. If you did remove it, update `settings.py` like you normally would and skip this section.
+> If you did not remove `python-dotenv` in `requirements.in`, which you probably shouldn't, follow the steps below. If you did remove it, update `settings.py` like you normally would and skip this section.
 
 Using Docker's `.env` file, we're going to replace environment specific settings. First, we need to add the following code right below `import os`.
 
