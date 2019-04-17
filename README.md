@@ -21,6 +21,8 @@ Next:
 * install your packages by running: `pip install -r requirements.txt`
 * install Django by running: `django-admin startproject YOUR-PROJECT-NAME-HERE .`
 
+> `YOUR-PROJECT-NAME-HERE` should match `PROJECT_NAME` in the `.env` file
+
 ### .env and settings.py
 > If you did not remove `python-dotenv` in `requirements.in`, which you probably shouldn't, follow the steps below. If you did remove it, update `settings.py` like you normally would and skip this section.
 
