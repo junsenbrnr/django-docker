@@ -19,8 +19,6 @@ services:
       - "443:4433"
     volumes:
       - ./static:/static
-    links:
-      - app
     restart: always
 
   ### APPLICATION
@@ -42,8 +40,6 @@ services:
     volumes:
       - .:/${PROJECT_NAME}
     depends_on:
-      - db
-    links:
       - db
     restart: always
 

@@ -22,8 +22,6 @@ services:
       # https://certbot.eff.org/docs/using.html#webroot
       - ./nginx/letsencrypt:/var/www/letsencrypt
       - /etc/letsencrypt:/etc/letsencrypt
-    links:
-      - app
     restart: always
 
   ### APPLICATION
@@ -44,8 +42,6 @@ services:
     volumes:
       - .:/${PROJECT_NAME}
     depends_on:
-      - db
-    links:
       - db
     restart: always
 
