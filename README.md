@@ -9,7 +9,7 @@ First, get [docker](https://www.docker.com)
 ### Repository
 Next:
 
-* download this repo
+* download this repo and copy the contents into your project
 * create a virtual environemt for your project
 * copy `env-template` to `.env` and fill in your project/docker settings
 * add or remove any dependencies in `requirements.in`
@@ -24,7 +24,7 @@ Next:
 > `YOUR-PROJECT-NAME-HERE` should match `PROJECT_NAME` in the `.env` file
 
 ### .env and settings.py
-> If you did not remove `python-dotenv` in `requirements.in`, which you probably shouldn't, follow the steps below. If you did remove it, update `settings.py` like you normally would and skip this section.
+> If you did not remove `python-dotenv` in `requirements.in`, follow the steps below. If you did remove it, update `settings.py` like you normally would and skip this section.
 
 Using Docker's `.env` file, we're going to replace environment specific settings. First, we need to add the following code right below `import os`.
 
@@ -73,5 +73,5 @@ Create the superuser:
 * `docker-compose -f dev.yml exec app bash -c "./manage.py createsuperuser"`
 
 Static files:
-> You'll need to update `settings.py` and create the `STATIC_ROOT` of your choice. By default, the directories are named `static` and `media`. If you want to use different names, you'll also have to update the Nginx confs and rebuild the containers.
+> You'll need to update `settings.py` and create the `STATIC_ROOT` of your choice. By default, the directory is mounted as a volume in both `dev.yml` and `docker-compose.yml` as `static`. If you want to use something different, you'll have to update the Nginx confs and rebuild the containers.
 * `docker-compose -f dev.yml exec app bash -c "./manage.py collectstatic --no-input"`
