@@ -15,8 +15,6 @@ COPY conf/nginx.conf /etc/nginx/
 
 COPY conf/project.conf /etc/nginx/conf.d/
 
-RUN sed -i 's/PROJECT_NAME/'"${PROJECT_NAME}"'/g' /etc/nginx/conf.d/project.conf
-
 ARG VIRTUAL_HOST=local.dev
 RUN sed -i 's/VIRTUAL_HOST/'"${VIRTUAL_HOST}"'/g' /etc/nginx/conf.d/project.conf
 
