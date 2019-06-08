@@ -58,7 +58,7 @@ DATABASES = {
 
 ### Build containers
 With everything setup, to build and run the containers run:
-* `docker-compose -f dev.yml build`
+* `docker-compose -f dev.yml build --force-rm`
 * `docker-compose -f dev.yml up -d`
 
 Edit your local hosts file and point the `VIRTUAL_HOST` set in `.env` to `127.0.0.1`. You should now be able to hit your `VIRTUAL_HOST` in your browser.
