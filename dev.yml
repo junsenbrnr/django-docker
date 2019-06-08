@@ -4,8 +4,7 @@ version: '3'
 services:
   ### WEB
   web:
-    env_file:
-      - .env
+    env_file: .env
     build:
       context: ./nginx
       dockerfile: Dockerfile-dev
@@ -23,8 +22,7 @@ services:
 
   ### APPLICATION
   app:
-    env_file:
-      - .env
+    env_file: .env
     build:
       context: .
       dockerfile: ./application/Dockerfile
@@ -45,13 +43,8 @@ services:
 
   ### DATABASE
   db:
-    env_file:
-      - .env
-    build:
-      context: ./postgres
-      dockerfile: Dockerfile
-      args:
-        - POSTGRES_VERSION=${POSTGRES_VERSION}
+    env_file: .env
+    image: postgres:${POSTGRES_VERSION}
     container_name: ${PROJECT_NAME}_db
     volumes:
       - ${POSTGRES_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
